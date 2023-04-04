@@ -106,6 +106,28 @@ namespace TestProject.Migrations
                     b.ToTable("Banner");
                 });
 
+            modelBuilder.Entity("TestProject.Models.Cart", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("TotalPrice")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("quantity")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cart");
+                });
+
             modelBuilder.Entity("TestProject.Models.Category", b =>
                 {
                     b.Property<int>("ID")
@@ -144,6 +166,42 @@ namespace TestProject.Migrations
                     b.ToTable("Category");
                 });
 
+            modelBuilder.Entity("TestProject.Models.Offer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("CreatedBy")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("OfferDescription")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OfferName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UpdatedBy")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Offer");
+                });
+
             modelBuilder.Entity("TestProject.Models.Product", b =>
                 {
                     b.Property<int>("ID")
@@ -153,6 +211,9 @@ namespace TestProject.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ID"), 1L, 1);
 
                     b.Property<int>("BannerID")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CartId")
                         .HasColumnType("int");
 
                     b.Property<int>("CategoryId")
@@ -209,7 +270,41 @@ namespace TestProject.Migrations
 
                     b.HasKey("ID");
 
+                    b.HasIndex("CartId");
+
                     b.ToTable("Product");
+                });
+
+            modelBuilder.Entity("TestProject.Models.Review", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Rating")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserReview")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Review");
                 });
 
             modelBuilder.Entity("TestProject.models.users", b =>
@@ -261,6 +356,18 @@ namespace TestProject.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("TestProject.Models.Product", b =>
+                {
+                    b.HasOne("TestProject.Models.Cart", null)
+                        .WithMany("products")
+                        .HasForeignKey("CartId");
+                });
+
+            modelBuilder.Entity("TestProject.Models.Cart", b =>
+                {
+                    b.Navigation("products");
                 });
 #pragma warning restore 612, 618
         }

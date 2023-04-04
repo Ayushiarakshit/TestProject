@@ -24,5 +24,11 @@ namespace TestProject.Data
         public DbSet<TestProject.Models.Product>? Product { get; set; }
 
         public DbSet<TestProject.Models.Banner>? Banner { get; set; }
+
+        public DbSet<TestProject.Models.Review>? Review { get; set; }
+
+        public DbSet<TestProject.Models.Offer>? Offer { get; set; }
+
+        public DbSet<TestProject.Models.Cart>? Cart { get; set; }
     }
 }
